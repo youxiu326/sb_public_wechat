@@ -3,6 +3,7 @@ package com.youxiu326.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.youxiu326.service.AccountService;
 import com.youxiu326.utils.WechatUtil;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,12 +37,12 @@ public class IndexController {
      * @param response
      * @throws UnsupportedEncodingException
      */
-    @RequestMapping("/washCart")
+    @RequestMapping("/washCar")
     public String washCart(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        return "center";
+        return "washCar";
     }
 
     /**
@@ -54,7 +56,7 @@ public class IndexController {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        return "center";
+        return "recharge";
     }
 
     /**
@@ -64,7 +66,7 @@ public class IndexController {
      * @throws UnsupportedEncodingException
      */
     @RequestMapping("/center")
-    public String center(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public String center(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
@@ -124,15 +126,15 @@ public class IndexController {
         System.out.println("========狂赚佣金==========");
         String scene_str = "oprfLww9bi1hskkH0s5PSlL0BkYA";
         // 获取了永久二维码
-        String qrCode = accountService.getQRcode(scene_str);
+        // String qrCode = accountService.getQRcode(scene_str);
 
         String redirectUri = "http://test.youxiu326.xin/web/getOpenId";
-        String state = "abc123";
+        String state = "STATE";
 
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
         url = url.replace("APPID", appID)
                 .replace("REDIRECT_URI",redirectUri)
-                .replace("SCOPE", "snsapi_base ") //无需授权，只查用户openId (snsapi_userinfo )
+                .replace("SCOPE", "snsapi_base") //无需授权，只查用户openId 【snsapi_base】     需要授权【snsapi_userinfo】
                 .replace("STATE", state);
 
 //        return "forward:/hello";
