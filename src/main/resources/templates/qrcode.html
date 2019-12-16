@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+		<base th:href="${#httpServletRequest.getContextPath()+'/'}">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
+	
+		<title>狂赚佣金</title>
+		
+	
+	<style>
+	
+	body{
+		padding: 0;
+		margin: 0;
+	}
+
+	.div-top{
+		width: 100%;
+		height: 40px;
+		background-color: white;
+	}
+	.div-top>font{
+		line-height: 40px;
+		padding-left: 20px;
+		font-weight: bold;
+	}
+	
+	.div-buttom-wrapper{
+		display: flex;
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		bottom: 0;
+		position: fixed;
+		color: white;
+		font-weight: bold;
+	}
+	
+	.div-buttom-share {
+		background-color: red;
+		text-align: center;
+		flex-grow:6;
+		margin-right: 20px;
+	}
+	
+	.div-buttom-save {
+		background-color: red;
+		text-align: center;
+		flex-grow:4;
+	}
+	
+	.div-buttom>font{
+		line-height: 40px;
+		font-weight: bold;
+		color: white;
+	}
+	.wechat-code-wrapper{
+		text-align: center;
+	}
+
+	
+	p{
+		width: 90%;
+		text-align: left;
+	}
+	
+	</style>
+	
+	</head>
+	
+	<body style="background-color: #E7E7E7;">
+		
+		<!--<div class="div-top">
+			<font onclick="onClose()">X 狂赚佣金</font>
+		</div>-->
+		
+		<div style="padding: 20px;">
+
+			<div class="wechat-code-wrapper">
+				<div id="qrCode"></div>
+			</div>
+			
+			
+			<div class="wechat-code-wrapper">
+				
+				<p style="font-weight: bold;margin-top: 50px;">如何赚佣金？</p>
+				
+				<p>1、分享您的公众号专属二维码给好友，让好友关注车大妈公众号。</p>
+				
+				<p>2、提醒好友在公众号内，点击“充值”菜单进行充值（好友每次充值，你都有奖金）。</p>
+				
+				<p>3、您可立即获得充值金额 <font color="red" style="font-weight: bold;"> 10% </font> 的奖励： </p>
+				
+				<p>&nbsp;&nbsp;&nbsp;例如：好友充值 200 元，您可获得 20 元佣金。好友每次充值，您每次都有奖金！</p>
+				
+			</div>
+		
+		</div>
+		
+		<div class="div-buttom-wrapper">
+		
+		<div class="div-buttom-share">
+			<font onclick="onShare()">分享二维码给好友</font>
+		</div>
+		
+		<div class="div-buttom-save">
+			<font onclick="onSave()">保存二维码</font>
+		</div>
+		
+		</div>
+		
+	</body>
+	
+	<script type="text/javascript" src="/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="/qrcode.js" ></script>
+	<script>
+		
+		$("#qrCode").qrcode("http://weixin.qq.com/q/02ejuRE7CTfb310000g07I");
+		
+		// 保存二维码
+		function onSave(){
+			
+		}
+		// 分享二维码
+		function onShare(){
+			window.location.href = "/page/share";
+		}
+	</script>
+	
+</html>

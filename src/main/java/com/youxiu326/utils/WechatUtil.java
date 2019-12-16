@@ -49,7 +49,7 @@ public class WechatUtil {
     }
 
     /**
-     * 向指定的地址发送一个post请求
+     * 向指定的地址发送一个get请求
      * @param url
      * @return
      */

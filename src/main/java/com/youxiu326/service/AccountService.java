@@ -38,7 +38,7 @@ public class AccountService {
         // 根据该地址自行生成需要的二维码图片
         String qrcodeUrl = (String) map.get("url");
         System.out.println(qrcodeUrl);
-        return url;
+        return qrcodeUrl;
     }
 
 

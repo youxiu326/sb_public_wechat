@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#httpServletRequest.getContextPath()+'/'}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
+    <title>狂赚佣金</title>
+
+
+
+<style>
+
+    .mint-msgbox {
+        position: fixed;
+        position: absolute;
+        transition: .2s;
+        z-index: 2007;
+        font-size: 15px;
+        background-color: #636562;
+        overflow: hidden;
+        backface-visibility: hidden;
+        border-radius: 3px;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+        -webkit-user-select: none;
+        -webkit-backface-visibility: hidden;
+        -webkit-transition: .2s;
+        top: 50%;
+        left: 50%;
+        width: 85%;
+        width: 300px;
+        height: 300px;
+        /*class="mint-msgbox-wrapper" */
+    }
+
+    .mint-msgbox-item {
+        width:100%;
+        padding:0;
+        overflow-y: auto;
+    }
+
+    .mint-msgbox-title{
+        display: inline-block;
+        width:100%;
+        height: 25px;
+        background-color: white;
+        text-align: center;
+    }
+
+    .mint-msgbox-button-wrapper-dialog{
+        position: absolute;
+        bottom: 0px;
+        text-align: center;
+        display: block;
+        overflow: hidden;
+        margin: 0 auto;
+        border-top: 1px solid #dfdfdf;
+        width: 100%;
+    }
+
+    .mint-msgbox-button-dialog{
+        display:inline-block;
+        padding:3px 10px;
+        margin:10px;
+        border:1px solid #F6F4F7;
+        background-color: #F6F4F7;
+        color: black;
+        border-radius: 3px;
+    }
+
+    .title-font{
+        height: 25px;
+        line-height: 25px;
+        font-size: 15px;
+        color: black;
+    }
+
+    .v-modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.5);
+        z-index: 2006;
+    }
+
+
+    .mint-msgbox-content{
+        text-align: center;
+    }
+
+    .mobile{
+        width: 62%;
+        height: 22px;
+    }
+    .verification{
+        margin: 50px 0;
+        width: 80%;
+        height: 25px;
+    }
+    .sms_code{
+        padding: 0 3px 0 3px;
+        font-size: 13px;
+        height: 26px;
+        line-height: 26px;
+        border: 1px solid #bdbdbd;
+        display: inline-block;
+        background-color: #F6F4F7;
+        border-radius: 3px;
+    }
+
+    body{
+        padding: 0;
+        margin: 0;
+    }
+
+    .h-center {
+        text-align: center;
+    }
+    .h-font {
+        font-weight: bold;
+        color: red;
+    }
+    .mint-msgbox-button-wrapper{
+        text-align: center;
+        display: block;
+        overflow: hidden;
+        margin: 0 auto;
+        border-top: 1px solid #dfdfdf;
+        width: 100%;
+    }
+    .mint-msgbox-button{
+        display:inline-block;
+        padding:3px 10px;
+        margin:10px;
+        border:1px solid #F6F4F7;
+        background-color: red;
+        color: white;
+        font-weight: bold;
+    }
+
+    table{
+        width: 100%;
+        text-align: center;
+    }
+    tr{
+        height: 35px;
+    }
+
+    .div-top{
+        width: 100%;
+        height: 40px;
+        background-color: white;
+    }
+    .div-top>font{
+        line-height: 40px;
+        padding-left: 20px;
+        font-weight: bold;
+    }
+
+    .div-buttom {
+        position: fixed;
+        bottom: 0;
+        height: 40px;
+        width:100%;
+        background-color: red;
+        text-align: center;
+    }
+
+    .div-buttom>font{
+        line-height: 40px;
+        font-weight: bold;
+        color: white;
+    }
+    input::-ms-input-placeholder{text-align: center;}
+    input::-webkit-input-placeholder{text-align: center;}
+
+</style>
+</head>
+<body>
+<form action="#" method="post">
+
+    <div id="body" style="background-color: #E7E7E7;">
+
+<!--        <div class="div-top">-->
+<!--            <font onclick="onClose()">X 狂赚佣金</font>-->
+<!--        </div>-->
+
+        <h4 class="h-center">本周佣金：<font class="h-font">500元</font></h4>
+        <h4 class="h-center">累积佣金：<font class="h-font">4000元</font></h4>
+
+        <div class="mint-msgbox-button-wrapper">
+            <span onclick="btnHistory()" class="mint-msgbox-button">历史记录</span>
+            <span onclick="btnWithdraw()" class="mint-msgbox-button">提现</span>
+        </div>
+
+        <label>2019-09-12</label>
+        <table>
+            <tr>
+                <th>充值金额</th>
+                <th>佣金</th>
+                <th>用户昵称</th>
+                <th>时间</th>
+            </tr>
+            <tr>
+                <td>200元</td>
+                <td>20元</td>
+                <td>哇哈哈哈</td>
+                <td>14:24</td>
+            </tr>
+        </table>
+
+
+        <div class="div-buttom" onclick="onShowqrcode()">
+            <font >我的二维码</font>
+        </div>
+
+    </div>
+
+
+    <!-- 活动通知start -->
+    <div id="confirm_activity">
+        <div style="z-index: 2007">
+            <div class="mint-msgbox">
+                <div class="mint-msgbox-item">
+                    <div class="mint-msgbox-title">
+                        <font class="title-font">编辑业务员信息</font>
+                    </div>
+                </div>
+                <div class="mint-msgbox-item mint-msgbox-content">
+
+                    <div style="margin: 40px 0 0 0;width: 90%;display: inline-block;">
+                        <input id="mobile" class="mobile" placeholder="输入手机号码"  />
+                        <span class="sms_code" onclick="get_sms_code()">获取验证码</span>
+                    </div>
+
+
+                    <input id="verification" class="verification" placeholder="输入验证码" />
+                </div>
+
+                <div class="mint-msgbox-button-wrapper-dialog">
+                    <span onclick="btnConfirm()" class="mint-msgbox-button-dialog">确认</span>
+                    <span onclick="btnClose()" class="mint-msgbox-button-dialog">取消</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="v-modal"></div>
+    </div>
+    <!-- 活动通知end -->
+
+
+</form>
+
+
+
+
+
+
+</body>
+
+<script src="/jquery-1.11.3.min.js"></script>
+<script>
+
+    $(function () {
+        $("#body").hide();
+    });
+
+    // 弹框取消事件
+    function btnClose() {
+        $('#confirm_activity').hide();
+        $('#body').show();
+        // window.history.back();
+    }
+
+    // 弹框确认事件
+    function btnConfirm() {
+
+    }
+    
+    // 历史记录
+    function btnHistory() {
+        window.location.href="/history";
+    }
+    // 提现
+    function btnWithdraw () {
+        window.location.href="/withdraw";
+    }
+
+    function onClose() {
+
+    }
+
+    function isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 去我的二维码界面
+    function onShowqrcode() {
+        window.location.href="/page/qrcode";
+    }
+
+    function login(){
+        $.ajax({
+            type: 'POST',
+            url: "/user/login",
+            data: {"username":$("#username").val(),"password":$("#password").val()},
+            // dataType: "json",
+            success: function(response){
+                if(response.data=="success"){
+                    window.location.href="allPage";
+                }else{
+                    alert(response.msg);
+                }
+            },
+            error:function(response){
+                alert("失败");
+                console.log(response);
+            }
+        });
+    }
+</script>
+
+
+</html>
