@@ -6,114 +6,134 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
 	
 		<title>提现</title>
-		
-	
+
+
 	<style>
-	
-	body{
-		padding: 0;
-		margin: 0;
-	}
 
-	.div-top{
-		width: 100%;
-		height: 40px;
-		background-color: white;
-	}
-	.div-top>font{
-		line-height: 40px;
-		padding-left: 20px;
-		font-weight: bold;
-	}
-	
-	.div-buttom {
-		position: fixed;
-		bottom: 0;
-		height: 40px;
-		width:100%;
-		background-color: red;
-		text-align: center;
-	}
-	
-	.div-buttom>font{
-		line-height: 40px;
-		font-weight: bold;
-		color: white;
-	}
-	.wechat-code-wrapper{
-		text-align: center;
-	}
-	.wechat-code{
-		display: inline-block;
-		border-radius: 10px;
-		height: 80px;
-		width: 60%;
-		background-color: #636562;
-	}
-	input{
-		height: 40px;
-		width: 60%;
-	}
-	p{
-		width: 60%;;
-	}
-	
+		body{
+			padding: 0;
+			margin: 0;
+		}
+
+		.div-top{
+			width: 100%;
+			height: 40px;
+			background-color: white;
+		}
+		.div-top>font{
+			line-height: 40px;
+			padding-left: 20px;
+			font-weight: bold;
+		}
+
+		.div-buttom {
+			position: fixed;
+			bottom: 0;
+			height: 40px;
+			width:100%;
+			background-color: red;
+			text-align: center;
+		}
+
+		.div-buttom>font{
+			line-height: 40px;
+			font-weight: bold;
+			color: white;
+		}
+		.wechat-code-wrapper{
+			text-align: center;
+		}
+		.wechat-code{
+			display: inline-block;
+			border-radius: 10px;
+			height: 80px;
+			width: 60%;
+			line-height: 80px;
+			background-color: #636562;
+		}
+		input{
+			height: 40px;
+			width: 60%;
+		}
+		p{
+			width: 60%;;
+		}
+
 	</style>
-	
-	</head>
-	
-	<body style="background-color: #E7E7E7;">
-		
-<!--		<div class="div-top">-->
-<!--			<font onclick="onClose()">X 提现</font>-->
-<!--		</div>-->
-		
-		<div style="padding: 30px;">
-			
 
-		<h4>请输入您的微信号：</h4>
+</head>
 
-		<div class="wechat-code-wrapper">
-			<input id="keyword_" name="keyword_" />
-			
-			<p>温馨提示:该微信号，用来领取佣金红包，每周日发放上周的佣金。</p>
-		</div>
-		
+<body style="background-color: #E7E7E7;">
 
-		
-		
-		<h4>您用来提现的微信号：</h4>
-		
-		<div class="wechat-code-wrapper">
-			<div class="wechat-code">
-				
-			</div>
+<div class="div-top">
+	<font onclick="onClose()">X 提现</font>
+</div>
+
+<div style="padding: 30px;">
+
+
+	<h4>请输入您的微信号：</h4>
+
+	<div class="wechat-code-wrapper">
+		<input id="keyword_" name="keyword_" />
+		<p>温馨提示:该微信号，用来领取佣金红包，每周日发放上周的佣金。</p>
+	</div>
+
+
+
+
+	<h4>您用来提现的微信号：</h4>
+
+	<div class="wechat-code-wrapper">
+		<div class="wechat-code">
+			<font id="wechatCode" style="color: white;font-weight: bold;font-size: 20px;"></font>
 		</div>
-		
-		</div>
-		
-		<div class="div-buttom">
-			<font onclick="onConfirm">确定</font>
-		</div>
-		
-	</body>
-	
-	<script type="text/javascript" src="jquery-1.11.3.min.js" ></script>
-	<script>
-				/*按键弹起时触发事件*/ 
-		$("#keyword_").on("input propertychange",function(){
-			var keywords = $(this).val().trim();
-			if(keywords!=null && keywords!=""){
-				
+	</div>
+
+</div>
+
+<div class="div-buttom">
+	<font onclick="onConfirm">确定</font>
+</div>
+
+</body>
+
+<script type="text/javascript" src="../js/jquery.min.js" ></script>
+<script>
+	/*按键弹起时触发事件*/
+	$("#keyword_").on("input propertychange",function(){
+		var keywords = $(this).val().trim();
+		if(keywords!=null && keywords!=""){
+			$("#wechatCode").html(keywords);
+		}
+	});
+
+	function onClose(){
+
+	}
+	function onConfirm(){
+		$.ajax({
+			//请求方式
+			type : "POST",
+			// html
+			// json
+			//请求的媒体类型
+			contentType: "application/json;charset=UTF-8",
+			//请求地址
+			url : "http://127.0.0.1/admin/list/",
+			//数据，json字符串
+			data : JSON.stringify(list),
+			//请求成功
+			success : function(result) {
+				console.log(result);
+			},
+			//请求失败，包含具体的错误信息
+			error : function(e){
+				console.log(e);
 			}
 		});
 
-		function onClose(){
-			window.history.back();
-		}
-		function onConfirm(){
-			
-		}
-	</script>
-	
+	}
+</script>
+
 </html>
