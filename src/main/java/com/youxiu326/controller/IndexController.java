@@ -3,10 +3,12 @@ package com.youxiu326.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.youxiu326.service.AccountService;
 import com.youxiu326.utils.WechatUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -124,7 +126,6 @@ public class IndexController {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         System.out.println("========狂赚佣金==========");
-        String scene_str = "oprfLww9bi1hskkH0s5PSlL0BkYA";
         // 获取了永久二维码
         // String qrCode = accountService.getQRcode(scene_str);
 
@@ -157,8 +158,42 @@ public class IndexController {
 
         // 通过网页授权获得用户微信openid
         String openid = (String) map.get("openid");
-        System.out.println("通过网页授权获得了用户微信openId");
+        System.out.println("通过网页授权获得了用户微信openId:"+openid);
         return map;
+    }
+
+
+    /**
+     * 1.网页授权重定向
+     */
+    @RequestMapping("/web/forward/getOpenId")
+    public String webForwardGetOpenId(HttpServletRequest request, HttpServletResponse response, Model model, String code) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        System.out.println("========狂赚佣金==========");
+        if(StringUtils.isBlank(code)){
+
+            String redirectUri=request.getRequestURL().toString();
+            String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+            url = url.replace("APPID", appID)
+                    .replace("REDIRECT_URI",redirectUri)
+                    .replace("SCOPE", "snsapi_base"); //无需授权，只查用户openId 【snsapi_base】     需要授权【snsapi_userinfo】
+            response.sendRedirect(url);
+
+         }else{
+
+            String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+            url = url.replace("APPID", appID)
+                    .replace("SECRET",appsecret)
+                    .replace("CODE", code);
+            String str = WechatUtil.get(url);
+            Map map = JSONObject.parseObject(str, Map.class);
+            // 通过网页授权获得用户微信openid
+            String openid = (String) map.get("openid");
+            System.out.println("通过网页授权获得了用户微信openId:"+openid);
+            model.addAttribute("openId", openid);
+         }
+        return "washCar";
     }
 
 
